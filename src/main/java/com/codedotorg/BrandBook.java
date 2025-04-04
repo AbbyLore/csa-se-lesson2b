@@ -1,6 +1,7 @@
 package com.codedotorg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -87,10 +88,11 @@ public class BrandBook {
      * and finally clears the input field.
      */
     public void addBrand() {
-        String newBrand = inputField.getText();
+        String newBrand = inputField.getText().trim(); // Get the text from the input field and trim whitespace
 
-        if (!newBrand.isEmpty()) {
+        if (!newBrand.isEmpty() && brands.stream().noneMatch(b -> b.getName().equalsIgnoreCase(newBrand))) {
             brands.add(new Brand(newBrand));
+            sortBrands(); // Ensure the list is sorted after adding a new brand
             refreshList();
             inputField.clear();
         }
@@ -100,7 +102,7 @@ public class BrandBook {
      * Sorts the brands in the 'brands' list based on their names.
      */
     public void sortBrands() {
-        
+        Collections.sort(brands, (brand1, brand2) -> brand1.getName().compareToIgnoreCase(brand2.getName()));
 
     }
 
